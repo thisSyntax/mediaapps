@@ -54,7 +54,7 @@ services:
       - homepage.group=Apps
       - homepage.name=Tautulli
       - homepage.icon=tautulli
-      - homepage.href={{HOMEPAGE_VAR_DOCKER-MEDIA_IP}}:8181
+      - homepage.href=https://tautulli.{{HOMEPAGE_VAR_WEB_DOMAIN}}
       - homepage.weight=2
       - homepage.widget.type=tautulli
       - homepage.widget.url={{HOMEPAGE_VAR_DOCKER-MEDIA_IP}}:8181
@@ -86,7 +86,7 @@ services:
       - homepage.group=Apps
       - homepage.name=Jellyseerr
       - homepage.icon=jellyseerr
-      - homepage.href={{HOMEPAGE_VAR_DOCKER-MEDIA_IP}}:5055
+      - homepage.href=https://seerr.{{HOMEPAGE_VAR_WEB_DOMAIN}}
       - homepage.weight=4
       - homepage.widget.type=jellyseerr
       - homepage.widget.url={{HOMEPAGE_VAR_DOCKER-MEDIA_IP}}:5055
