@@ -1,1 +1,70 @@
+networks:
+  apps_default:
+    name: apps_default
+    ipam:
+      config:
+        - subnet: 172.40.0.0/24
+        
+services:
+  # Commented out Jellyfin service; Currently using Plex for media server needs.
+  # jellyfin:
+  #   container_name: jellyfin
+  #   image: lscr.io/linuxserver/jellyfin:latest
+  #   ports:
+  #     - 8096:8096
+  #     - 8920:8920 #optional
+  #     - 7359:7359/udp #optional
+  #     - 1900:1900/udp #optional
+  #   networks:
+  #     apps_default:
+  #       ipv4_address: 172.40.0.2
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - JELLYFIN_PublishedServerUrl=${JELLYFIN_PUBLISHED_SERVER_URL} #optional
+  #   volumes:
+  #     - /path/to/jellyfin/library:/config
+  #     - /path/to/tvseries:/data/tvshows
+  #     - /path/to/movies:/data/movies
+  #   healthcheck:
+  #     test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+  #     start_period: 20s
+  #     timeout: 3s
+  #     interval: 15s
+  #     retries: 3
+  #   restart: unless-stopped
+
+  jellyseerr:
+    container_name: jellyseerr
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    init: true
+    ports:
+      - 5055:5055
+    networks:
+      apps_default:
+        ipv4_address: 172.40.0.3
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=002
+      - TZ=${TZ}
+    volumes:
+      - /opt/docker/apps/config/jellyseerr:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped
+    labels:
+      - homepage.group=Apps
+      - homepage.name=Jellyseerr
+      - homepage.icon=jellyseerr
+      - homepage.href={{HOMEPAGE_VAR_APPS_IP}}:5055
+      - homepage.weight=4
+      - homepage.widget.type=jellyseerr
+      - homepage.widget.url={{HOMEPAGE_VAR_APPS_IP}}:5055
+      - homepage.widget.key={{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}
 
